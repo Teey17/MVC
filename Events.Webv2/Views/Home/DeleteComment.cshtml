@@ -1,0 +1,66 @@
+﻿@model Events.Webv2.Models.CommentInputModel
+
+
+<div class="container" style="width:50%;margin-top:2%">
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" class="close" onclick="refresh()" data-dismiss="modal">&times;</a>
+                    <h3 class="modal-title">Delete comment</h3>
+                </div>
+
+                <div class="modal-body">
+
+                    <form id="myForm">
+                        @if (Model.Author != null)
+                        {
+                            @Html.LabelFor(e => e.Author, new { @class = "form-control" })
+                        }
+                        <p>@Model.Text</p>
+
+                        @Html.HiddenFor(e => e.EventId, new { @class = "form-control" })
+
+
+                        @Html.HiddenFor(e => e.Id, new { @class = "form-control" })
+
+                        @Html.HiddenFor(e => e.Text, new { @class = "form-control" })
+                    </form>
+
+                </div>
+
+                <div class="modal-footer">
+                    <input value="Delete" type="button" onclick="submit()" class="btn btn-default" />
+
+                    @Html.ActionLink("Cancel", "Index", "Home", null, new { @class = "btn btn-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $("#myModal").modal("show");
+    })
+
+    var refresh = function () {
+        window.location.href = "/Home/Index";
+    }
+
+    var submit = function () {
+        var formData = $("#myForm").serialize();
+
+        $.ajax({
+            type: "post",
+            url: "/Home/DeleteComment",
+            data: formData,
+            success: function () {
+                alert("Deleted successfully")
+            }
+        })
+    }
+</script>
+
+

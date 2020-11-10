@@ -1,0 +1,24 @@
+﻿@model Events.Webv2.Models.UpcomingPassedEventViewModel
+@{
+    ViewBag.Title = "Events";
+}
+
+@Html.Partial("_Events")
+
+<p>Page @ViewBag.Page of @ViewBag.NumberOfPages</p>
+
+@if (ViewBag.CanGoToNextPage != false)
+{
+    @Html.ActionLink("Next Page", "Paging", new { pageNo = ViewBag.Page + 1 })
+}
+
+
+
+@if (ViewBag.Page > 1)
+{
+    @Html.ActionLink("Previous Page", "Paging", new { pageNo = ViewBag.Page - 1})
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/ajax")
+}

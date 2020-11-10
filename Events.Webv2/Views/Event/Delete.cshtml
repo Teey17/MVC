@@ -1,0 +1,18 @@
+﻿@model Events.Webv2.Models.EventInputModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Delete</h2>
+
+@Html.Partial("_EventEditorForm")
+
+@section scripts{
+    @Scripts.Render("~/bundles/bootstrap-datetimepicker")
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@section styles{
+    @Styles.Render("~/Content/bootstrap-datetimepicker")
+}

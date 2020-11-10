@@ -1,0 +1,55 @@
+﻿@model Events.Webv2.Models.EventInputModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@Html.Partial("_EventEditorForm")
+
+@section scripts{
+    @Scripts.Render("~/bundles/bootstrap-datetimepicker")
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@section styles{
+    @Styles.Render("~/Content/bootstrap-datetimepicker")
+}
+
+<script>
+    $(document).ready(function () {
+        $("#profilePic").change(function () {
+
+            var file = this.files;
+
+            if (file && file[0] && file[0].name.match(/\.(png|jpeg|gif|)$/)) {
+                uploadImage(file[0]);
+            }
+            else {
+                alert("Image file type should either be jpeg, png or gif")
+            }
+        })
+    })
+
+    var uploadImage = function (_file) {
+        var data = new FormData;
+        var eventId = 2;
+
+        data.append("ImageFile", _file);
+        data.append("EventId", eventId);
+
+        $.ajax({
+            type: "post",
+            url: "/Event/Image",
+            data: data,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                alert("Image successfully saved");
+            }
+
+        })
+    }
+</script>
+

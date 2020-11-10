@@ -1,0 +1,65 @@
+﻿@model Events.Webv2.Models.EventDetailsViewModel
+
+@if (Model.Description != null)
+{
+    <div class="description">Description: @Model.Description</div>
+
+
+}
+
+@if (Model.Comments.Any())
+{
+    if (ViewBag.CanEdit)
+    {
+        <img src="~/Images/event-2.png" class="img-responsive" style="max-width:400px;max-height:400px;min-width:100px;min-height:100px" />
+    }
+    @:Comments:
+    <ul>
+        @foreach (var comment in Model.Comments)
+        {
+            <li>
+                @comment.Text
+                @if (comment.Author != null)
+                {
+                    @: (by @comment.Author)
+                }
+                <div id="event-comment-@Model.Id">
+                    @Ajax.ActionLink("Add Comment", "AddComment", "Home",
+                   new { id = Model.Id },
+                   new AjaxOptions
+                   {
+                       InsertionMode = InsertionMode.Replace,
+                       UpdateTargetId = "event-comment-" + Model.Id
+
+                   }, new { @class = "btn btn-default" })
+                </div>
+
+                @if (ViewBag.CanEdit)
+                {
+                    <div id="event-delete-@Model.Id">
+                        @Ajax.ActionLink("Delete Comment", "DeleteComment", "Home",
+                       new { id = comment.Id },
+                       new AjaxOptions
+                       {
+                           InsertionMode = InsertionMode.Replace,
+                           UpdateTargetId = "event-delete-" + Model.Id
+
+                       }, new { @class = "btn btn-default" })
+                    </div>
+                }
+
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No comment</p>
+}
+
+@if (ViewBag.CanEdit)
+{
+    @Html.ActionLink("Edit", "Edit", "Events", new { id = Model.Id }, new { @class = "btn btn-default" })
+    <span></span>
+    @Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-default" })
+}
